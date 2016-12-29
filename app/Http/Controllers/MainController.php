@@ -65,11 +65,13 @@ class MainController extends Controller
         $invalid=0;
         $qrid = quiz::where('id',$qid)->select('round')->first();
         $qrid=$qrid['round'];
+        $quiz = quiz::where('id', $qid)->first();
+        if($qrid!=$rid)
+            $invalid=1;
         if($qrid>$current)
             $invalid=1;
         if($rid>$current || $invalid==1)
             return redirect(url('/round/'.$current));
-        $quiz = quiz::where('id', $qid)->first();
         return view('quiz/ques')->with(['qid'=>$qid,'ques'=>$quiz['question'],'error'=>'']);    	
     }
 	public function quesvalidate(Request $request, $qid)
